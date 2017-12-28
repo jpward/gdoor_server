@@ -1,5 +1,6 @@
 import socket
 import subprocess
+import time
 
 doorOpen = True
 def getDoorState():
@@ -28,14 +29,17 @@ def engageDoor():
     global doorOpen
     gdoor_command = ""
     if doorOpen:
-        #gdoor_command = "echo 'close' > /home/edge/someFile.txt"
-        gdoor_command = "echo CLOSE > /home/edge/someFile.txt"
+        gdoor_command = "echo 0 > /sys/class/gpio/gpio48/value"
         doorOpen = False
+        process = subprocess.call( gdoor_command, shell=True )
     else:
-        #gdoor_command = "echo 'open' > /home/edge/someFile.txt"
-        gdoor_command = "echo OPEN > /home/edge/someFile.txt"
+        gdoor_command = "echo 1 > /sys/class/gpio/gpio48/value"
         doorOpen = True
-    process = subprocess.call( gdoor_command, shell=True )
+        process = subprocess.call( gdoor_command, shell=True )
+
+        time.sleep(2)
+        gdoor_command = "echo 0 > /sys/class/gpio/gpio48/value"
+        process = subprocess.call( gdoor_command, shell=True )
 
 #Setup Socket WebServer
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

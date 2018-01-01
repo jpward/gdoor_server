@@ -50,7 +50,9 @@ while True:
     request = conn.recv(1024)
     print("Content = %s" % str(request))
     #request = str(request)
-    engageDoor()
+    if str(request).find("GET /toggle") > -1:
+        engageDoor()
+
     response = buildHtml()
     conn.send(response)
     conn.close()

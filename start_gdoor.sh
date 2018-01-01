@@ -42,4 +42,4 @@ echo low > /sys/class/gpio/gpio48/direction
 #   sleep .2
 #done
 
-python gdoor_server.py
+python /home/ubuntu/gdoor_server/gdoor_server.py

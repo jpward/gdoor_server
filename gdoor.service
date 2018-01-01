@@ -1,0 +1,11 @@
+[Unit]
+Description=Garage Door Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/ubuntu/gdoor_server/start_gdoor.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

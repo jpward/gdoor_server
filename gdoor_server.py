@@ -14,15 +14,17 @@ def getDoorState():
 
 def buildHtml():
     #HTML to send to browsers
-    html = """<!DOCTYPE html>
-    <html>
-    <head> <title>Garage Options</title> </head>
-    <center><h2>Garage</h2></center>
-    <form method='GET' action='/toggle'>
-      <input type="submit" """ + getDoorState() + """>
-    </form>
-    </html>
-    """
+    html = """HTTP/1.1 200 OK
+Connection: close\r\n\r\n
+<!DOCTYPE html>
+<html>
+<head> <title>Garage Options</title> </head>
+<center><h2>Garage</h2></center>
+<form method='GET' action='/toggle'>
+  <input type="submit" """ + getDoorState() + """>
+</form>
+</html>
+"""
     return html
 
 def engageDoor():

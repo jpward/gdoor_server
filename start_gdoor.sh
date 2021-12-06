@@ -9,6 +9,11 @@ fi
 
 #Setup gpio for output
 if [ ! -d /sys/class/gpio/gpio48 ]; then echo 48 > /sys/class/gpio/export; fi
+if [ ! -d /sys/class/gpio/gpio49 ]; then
+  echo 49 > /sys/class/gpio/export
+  sleep 1
+  echo in > /sys/class/gpio/gpio49/direction
+fi
 #if [ ! -d /sys/class/gpio/gpio50 ]; then echo 50 > /sys/class/gpio/export; fi
 #if [ ! -d /sys/class/gpio/gpio51 ]; then echo 51 > /sys/class/gpio/export; fi
 #if [ ! -d /sys/class/gpio/gpio60 ]; then echo 60 > /sys/class/gpio/export; fi

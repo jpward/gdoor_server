@@ -11,13 +11,17 @@ def getRedirect(redirect):
 def getDoorState():
     gdoor_open_cmd = ['cat', '/sys/class/gpio/gpio49/value']
     gdoor_opened = subprocess.check_output(gdoor_open_cmd)
+    gdoor_close_cmd = ['cat', '/sys/class/gpio/gpio115/value']
+    gdoor_closed = subprocess.check_output(gdoor_close_cmd)
     if gdoor_opened == "1\n":
         print("door is open")
         return """value="Close Garage Door" """
-    else:
+    elif gdoor_closed == "1\n":
         print("door is closed")
         return """value="Open Garage Door" """
-
+    else:
+        print("door is moving")
+        return """value="Stop Garage Door" """
 
 def buildHtml(redirect):
     #HTML to send to browsers
@@ -40,8 +44,8 @@ def engageDoor(override):
     gdoor_open_cmd = ['cat', '/sys/class/gpio/gpio49/value']
     gdoor_opened = subprocess.check_output(gdoor_open_cmd)
 
-    #HACK remove line below once we have closed switch
-    gdoor_closed = "1\n"
+    gdoor_close_cmd = ['cat', '/sys/class/gpio/gpio115/value']
+    gdoor_closed = subprocess.check_output(gdoor_close_cmd)
 
     print("engage door %s %s" % (gdoor_opened, gdoor_closed) )
 
@@ -59,6 +63,7 @@ def engageDoor(override):
             time.sleep(0.2)
             max_sleep_cnt = max_sleep_cnt + 1
             gdoor_opened = subprocess.check_output(gdoor_open_cmd)
+            gdoor_closed = subprocess.check_output(gdoor_close_cmd)
 
         print("simulating button up")
         gdoor_command = "echo 0 > /sys/class/gpio/gpio48/value"
